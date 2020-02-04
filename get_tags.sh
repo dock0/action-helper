@@ -7,7 +7,7 @@ sha="${GITHUB_SHA::7}"
 
 tags="${date}-${sha}"
 
-version_regex="^refs/tags/(v?[0-9]+)\\.([0-9]+)\\.([0-9]+)$"
+version_regex="^refs/tags/(v[0-9]+)\\.([0-9]+)\\.([0-9]+)$"
 if [[ "$GITHUB_REF" =~ $version_regex ]] ; then
     version_tags="$(echo $GITHUB_REF | sed -r "s|${version_regex}|\\1.\\2.\\3 \\1.\\2 \\1|")"
     tags="${tags} ${version_tags}"
