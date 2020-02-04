@@ -17,4 +17,5 @@ if [[ "$GITHUB_REF" =~ ^refs/heads/master$ ]] ; then
     tags="${tags},latest"
 fi
 
+echo "Setting tags to ${tags}"
 echo "::set-output name=tags::${tags}"
