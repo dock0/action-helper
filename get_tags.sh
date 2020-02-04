@@ -5,7 +5,7 @@ set -euo pipefail
 date="$(date +%Y%m%d)"
 sha="${GITHUB_SHA::7}"
 
-tags="${date}${sha}"
+tags="${date}-${sha}"
 
 version_regex="^refs/tags/(v?[0-9]+)\\.([0-9]+)\\.([0-9]+)$"
 if [[ "$GITHUB_REF" =~ $version_regex ]] ; then
