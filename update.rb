@@ -6,9 +6,11 @@ require 'net/http'
 require 'json'
 
 def commit(msg)
-  system('git', 'add', 'Dockerfile')
-  system('git', 'commit', '--allow-empty', '-m', msg)
-  system('git', 'push', 'origin', 'master')
+  system('git', 'config', '--local', 'user.email', 'action@github.com') || fail('failed to set email')
+  system('git', 'config', '--local', 'user.name', 'Github Action') || fail('failed to set name')
+  system('git', 'add', 'Dockerfile') || fail('failed to git add')
+  system('git', 'commit', '--allow-empty', '-m', msg) || fail('failed to git commit')
+  system('git', 'push', 'origin', 'master') || fail('failed to git push')
 end
 
 def github_registry_bump(src)
