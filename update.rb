@@ -8,7 +8,6 @@ require 'json'
 def commit(msg)
   system('git', 'config', '--local', 'user.email', 'action@github.com') || fail('failed to set email')
   system('git', 'config', '--local', 'user.name', 'Github Action') || fail('failed to set name')
-  system('git', 'add', 'Dockerfile') || fail('failed to git add')
   system('git', 'commit', '--allow-empty', '-m', msg) || fail('failed to git commit')
   system('git', 'push', 'origin', 'master') || fail('failed to git push')
 end
@@ -59,14 +58,22 @@ def github_registry_bump(src)
     end
   end
 
+  system('git', 'add', 'Dockerfile') || fail('failed to git add')
   commit "Bumped source to #{latest}"
+end
+
+def scratch_bump
+  datestamp = DateTime.now.strftime("%Y%m%d-%H%M%S")
+  File.open('stamp', 'w') { |fh| fh << datestamp }
+  system('git', 'add', 'stamp') || fail('failed to git add')
+  commit "Bumping on #{datestamp}"
 end
 
 src_image = File.read('Dockerfile').lines.grep(/^FROM/).first.split[1]
 
 case src_image
 when "scratch"
-  commit "Bumping on #{DateTime.now.strftime("%Y%m%d-%H%M%S")}"
+  scratch_bump
 when /^docker.pkg.github.com/
   github_registry_bump src_image
 else
