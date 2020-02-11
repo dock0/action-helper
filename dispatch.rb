@@ -9,7 +9,7 @@ repo = ENV['GITHUB_REPOSITORY']
 uri = URI("https://api.github.com/repos/#{repo}/dispatches")
 req = Net::HTTP.post(
   uri,
-  { 'event-type' => 'update-rebuild' }.to_json,
+  { 'event_type' => 'update-rebuild' }.to_json,
   { 'Authorization' => "bearer #{ENV['GITHUB_TOKEN']}" }
 )
-fail("Failed query: #{req.code}") unless req.code_type == Net::HTTPOK
+fail("Failed query: #{req.code}") unless req.code == "204"
