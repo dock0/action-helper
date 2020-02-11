@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'pry'
 require 'date'
 require 'uri'
 require 'net/http'
