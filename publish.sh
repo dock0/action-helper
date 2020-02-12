@@ -7,10 +7,10 @@ PATH="${curdir}:${PATH}"
 
 login.sh
 
-image="${GITHUB_REPO#*/}"
+image="${GITHUB_REPOSITORY#*/}"
 
 for tag in $(get_tags.sh) ; do
-    full_name="docker.pkg.github.com/${GITHUB_REPO}/${image}:${tag}"
+    full_name="docker.pkg.github.com/${GITHUB_REPOSITORY}/${image}:${tag}"
     echo "Tagging ${full_name}"
     docker tag new "${full_name}"
     docker push "${full_name}"
