@@ -10,6 +10,8 @@ def commit(msg)
   system('git', 'config', '--local', 'user.name', 'Github Action') || fail('failed to set name')
   system('git', 'commit', '--allow-empty', '-m', msg) || fail('failed to git commit')
   system('git', 'push', 'origin', 'master') || fail('failed to git push')
+  ref = `git rev-parse HEAD`.chomp
+  puts "::set-env name=GITHUB_SHA::#{ref}"
 end
 
 def github_registry_bump(src)
