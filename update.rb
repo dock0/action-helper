@@ -21,7 +21,7 @@ def github_registry_bump(src)
   latest = get_latest(src)
 
   if latest == current
-    return scratch_bump if ENV['ALWAYS_BUMP']
+    return scratch_bump if File.exist? 'stamp'
     return
   end
 
@@ -57,6 +57,6 @@ when "scratch"
 when /^docker.pkg.github.com/
   github_registry_bump src_image
 else
-  fail("Unknown source image: #{src_image}") unless ENV['ALWAYS_BUMP']
+  fail("Unknown source image: #{src_image}") unless File.exist? 'stamp'
   scratch_bump
 end
