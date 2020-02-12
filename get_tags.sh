@@ -15,7 +15,7 @@ if [[ "$GITHUB_REF" =~ $version_regex ]] ; then
 fi
 
 if [[ "$GITHUB_REF" =~ ^refs/heads/master$ ]] ; then
-    tags="${tags} latest"
+    tags="latest ${tags}"
 fi
 
 echo "${tags}"
