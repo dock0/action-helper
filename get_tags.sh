@@ -3,7 +3,8 @@
 set -euo pipefail
 
 date="$(date +%Y%m%d)"
-sha="${GITHUB_SHA::7}"
+full_sha="$(git rev-parse HEAD)"
+sha="${full_sha::7}"
 
 tags="${date}-${sha}"
 
