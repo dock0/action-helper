@@ -19,7 +19,10 @@ def github_registry_bump(src)
   org, repo, image, current = match.captures
   latest = get_latest(src)
 
-  return if latest == current
+  if latest == current
+    return scratch_bump if ENV['ALWAYS_BUMP']
+    return
+  end
 
   old = File.read('Dockerfile').lines
   breaker = false
@@ -53,5 +56,6 @@ when "scratch"
 when /^docker.pkg.github.com/
   github_registry_bump src_image
 else
-  fail "Unknown source image: #{src_image}"
+  fail("Unknown source image: #{src_image}") unless ENV['ALWAYS_BUMP']
+  scratch_bump
 end
