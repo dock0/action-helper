@@ -15,7 +15,7 @@ def commit(msg)
 end
 
 def github_registry_bump(src)
-  match = src.match(/docker\.pkg\.github\.com\/(\w+)\/(\w+)\/(\w+):(\w+)/)
+  match = src.match(/docker\.pkg\.github\.com\/([\w-]+)\/([\w-]+)\/([\w-]+):([\w-]+)/)
   fail('failed to parse package') unless match
   org, repo, image, current = match.captures
   latest = get_latest(src)
