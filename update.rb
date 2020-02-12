@@ -9,8 +9,9 @@ require_relative 'get_latest.rb'
 def commit(msg)
   system('git', 'config', '--local', 'user.email', 'action@github.com') || fail('failed to set email')
   system('git', 'config', '--local', 'user.name', 'Github Action') || fail('failed to set name')
-  system('git', 'commit', '--allow-empty', '-m', msg) || fail('failed to git commit')
+  system('git', 'commit', '-m', msg) || fail('failed to git commit')
   system('git', 'push', 'origin', 'master') || fail('failed to git push')
+  puts "::set-output name=updated::yes"
 end
 
 def github_registry_bump(src)
