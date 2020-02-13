@@ -17,8 +17,10 @@ def build_query(org, repo, image)
   { 'query' => query }.to_json
 end
 
+DOCKER_SRC = %r{docker\.pkg\.github\.com/([\w-]+)/([\w-]+)/([\w-]+):([\w-]+)}
+
 def parse_source(src)
-  match = src.match(%r{docker\.pkg\.github\.com/(\w+)/(\w+)/(\w+):(\w+)})
+  match = src.match(DOCKER_SRC)
   raise('failed to parse package') unless match
   match.captures
 end
