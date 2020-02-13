@@ -12,7 +12,7 @@ jobs:
     - name: Install shellcheck
       run: sudo apt install -y shellcheck
     - name: Install rubocop
-      run: gem install --no-user-install --no-document rubocop goodcop
+      run: sudo gem install --no-user-install --no-document rubocop goodcop
     - name: Shellcheck
       run: 'shellcheck *.sh'
     - name: Rubocop
