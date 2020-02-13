@@ -10,7 +10,7 @@ jobs:
     - name: Submodules
       run: git submodule update --init --recursive
     - name: Install shellcheck
-      run: apt install -y shellcheck
+      run: sudo apt install -y shellcheck
     - name: Install rubocop
       run: gem install --no-user-install --no-document rubocop goodcop
     - name: Shellcheck
