@@ -23,8 +23,8 @@ def update_dockerfile(org, repo, image, version) # rubocop:disable Metrics/Metho
   breaker = false
   File.open('Dockerfile', 'w') do |fh|
     old.each do |line|
-      if !breaker && line =~ /^FROM docker\.pkg\.github\.com/
-        fh << "FROM docker.pkg.github.com/#{org}/#{repo}/#{image}:#{version}\n"
+      if !breaker && line =~ /^FROM ghcr\.io/
+        fh << "FROM ghcr.io/#{org}/#{repo}/#{image}:#{version}\n"
         breaker = true
       else
         fh << line
@@ -59,7 +59,7 @@ src_image = File.read('Dockerfile').lines.grep(/^FROM/).first.split[1]
 case src_image
 when 'scratch'
   scratch_bump
-when /^docker.pkg.github.com/
+when /^ghcr\.io/
   github_registry_bump src_image
 else
   raise("Unknown source image: #{src_image}") unless File.exist? 'stamp'
