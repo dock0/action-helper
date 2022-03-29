@@ -4,7 +4,7 @@ require 'uri'
 require 'net/http'
 require 'json'
 
-DOCKER_SRC = %r{ghcr\.io/([\w-]+)/([\w-]+)/([\w-]+):([\w-]+)}
+DOCKER_SRC = %r{ghcr\.io/([\w-]+)/([\w-]+):([\w-]+)}
 
 def parse_source(src)
   match = src.match(DOCKER_SRC)
@@ -12,8 +12,8 @@ def parse_source(src)
   match.captures
 end
 
-def make_request(org, repo, image)
-  uri = URI("https://api.github.com/orgs/#{org}/packages/container/#{repo}%2F#{image}/versions")
+def make_request(org, image)
+  uri = URI("https://api.github.com/orgs/#{org}/packages/container/#{image}/versions")
   req = Net::HTTP.get_response(
     uri,
     'Accept' => 'application/vnd.github.v3+json',
@@ -24,8 +24,8 @@ def make_request(org, repo, image)
 end
 
 def get_latest(src)
-  org, repo, image, = parse_source(src)
-  resp = make_request(org, repo, image)
+  org, image, = parse_source(src)
+  resp = make_request(org, image)
   tags = resp.first.dig('metadata', 'container', 'tags')
   # this checks if latest is in the tag list *and* removes it, leaving just the datestamp tag
   raise("Latest image doesn't have latest tag") unless tags.delete 'latest'
