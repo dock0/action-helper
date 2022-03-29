@@ -18,13 +18,13 @@ def commit(msg)
   puts '::set-output name=updated::yes'
 end
 
-def update_dockerfile(org, repo, image, version) # rubocop:disable Metrics/MethodLength
+def update_dockerfile(org, image, version) # rubocop:disable Metrics/MethodLength
   old = File.read('Dockerfile').lines
   breaker = false
   File.open('Dockerfile', 'w') do |fh|
     old.each do |line|
       if !breaker && line =~ /^FROM ghcr\.io/
-        fh << "FROM ghcr.io/#{org}/#{repo}/#{image}:#{version}\n"
+        fh << "FROM ghcr.io/#{org}/#{image}:#{version}\n"
         breaker = true
       else
         fh << line
@@ -34,7 +34,7 @@ def update_dockerfile(org, repo, image, version) # rubocop:disable Metrics/Metho
 end
 
 def github_registry_bump(src)
-  org, repo, image, current = parse_source(src)
+  org, image, current = parse_source(src)
   latest = get_latest(src)
 
   if latest == current
@@ -42,7 +42,7 @@ def github_registry_bump(src)
     return
   end
 
-  update_dockerfile(org, repo, image, latest)
+  update_dockerfile(org, image, latest)
   system('git', 'add', 'Dockerfile') || raise('failed to git add')
   commit "Bumped source to #{latest}"
 end
