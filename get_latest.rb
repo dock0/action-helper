@@ -14,13 +14,15 @@ end
 
 def make_request(org, image)
   uri = URI("https://api.github.com/orgs/#{org}/packages/container/#{image}/versions")
-  req = Net::HTTP.get_response(
-    uri,
-    'Accept' => 'application/vnd.github.v3+json',
-    'Authorization' => "token #{ENV['GITHUB_TOKEN']}"
-  )
-  return JSON.parse(req.body) if req.code_type == Net::HTTPOK
-  raise("Failed API lookup: #{req.code}")
+  req = Net::HTTP::Get.new(uri)
+  req['Accept'] = 'application/vnd.github.v3+json'
+  req['Authorization'] = "token #{ENV['GITHUB_TOKEN']}"
+
+  resp = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(req)
+  end
+  return JSON.parse(resp.body) if resp.code_type == Net::HTTPOK
+  raise("Failed API lookup: #{resp.code}")
 end
 
 def get_latest(src)
