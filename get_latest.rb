@@ -31,6 +31,7 @@ def get_latest(src)
   tags = resp.first.dig('metadata', 'container', 'tags')
   # this checks if latest is in the tag list *and* removes it, leaving just the datestamp tag
   raise("Latest image doesn't have latest tag") unless tags.delete 'latest'
+  raise('No valid tag found') if tags.first.nil?
   return tags.first
 end
 
