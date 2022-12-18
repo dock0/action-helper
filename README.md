@@ -1,7 +1,7 @@
 action-helper
 =======
 
-[![License](https://img.shields.io/github/license/dock0/action-helper)](https://github.com/dock0/action-helper/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/dock0/action-helper)](https://github.com/dock0/action-helper/blob/main/LICENSE)
 
 Helpers for building Docker containers with GitHub Actions
 

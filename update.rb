@@ -13,7 +13,7 @@ def commit(msg)
   raise('failed to set name') unless ok
   ok = system('git', 'commit', '-m', msg)
   raise('failed to git commit') unless ok
-  ok = system('git', 'push', 'origin', 'master')
+  ok = system('git', 'push', 'origin', 'main')
   raise('failed to git push') unless ok
   puts '::set-output name=updated::yes'
 end
