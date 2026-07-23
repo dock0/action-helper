@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-date="$(date +%Y%m%d)"
+date="$(date +%Y-%m-%d)"
 full_sha="$(git rev-parse HEAD)"
 sha="${full_sha::7}"
 
