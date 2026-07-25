@@ -12,3 +12,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v7
+    - name: Post to hook-exporter
+      uses: akerl/.github/actions/hook-exporter@main
+      with:
+        token: ${{ secrets.EXPORTER_TOKEN }}
+        status: ${{ job.status }}
+      if: always() && github.ref == 'refs/heads/main'
